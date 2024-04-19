@@ -56,3 +56,14 @@ const handleUpdate = (index, updateText) => {
     </TodoItem>
   </ul>
 </template>
+
+<style scoped>
+ul {
+  padding: 0px;
+  list-style: none;
+}
+
+li {
+  margin-top: 20px;
+}
+</style>
