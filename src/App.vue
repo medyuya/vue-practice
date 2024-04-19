@@ -6,15 +6,15 @@ const newTodoText = ref('')
 const todos = ref([
   {
     id: 1,
-    title: 'Do the dishes'
+    content: 'Do the dishes'
   },
   {
     id: 2,
-    title: 'Take out the trash'
+    content: 'Take out the trash'
   },
   {
     id: 3,
-    title: 'Mow the lawn'
+    content: 'Mow the lawn'
   }
 ])
 
@@ -23,7 +23,7 @@ let nextTodoId = 1
 const addNewTodo = () => {
   todos.value.push({
     id: nextTodoId++,
-    title: newTodoText.value
+    content: newTodoText.value
   })
 
   newTodoText.value = ''
@@ -34,7 +34,7 @@ const removeTodo = (index) => {
 }
 
 const handleUpdate = (index, updateText) => {
-  todos.value[index].title = updateText
+  todos.value[index].content = updateText
 }
 </script>
 
@@ -49,7 +49,7 @@ const handleUpdate = (index, updateText) => {
     <TodoItem
       v-for="(todo, index) in todos"
       :key="todo.id"
-      :title="todo.title"
+      :content="todo.content"
       @remove="removeTodo(index)"
       @update="handleUpdate(index, $event)"
     >

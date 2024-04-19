@@ -8,12 +8,12 @@ const submitForm = () => {
   emits('update', textInput.value)
 }
 
-defineProps(['title', 'value'])
+defineProps(['content', 'value'])
 </script>
 
 <template>
   <li>
-    {{ title }}
+    {{ content }}
     <form @submit.prevent="submitForm">
       <label for="update-todo">メモを編集する</label>
       <input v-model="textInput" />
