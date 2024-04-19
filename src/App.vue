@@ -21,6 +21,10 @@ const todos = ref([
 let nextTodoId = 1
 
 const addNewTodo = () => {
+  if (newTodoText.value.trim() === '') {
+    return
+  }
+
   todos.value.push({
     id: nextTodoId++,
     content: newTodoText.value

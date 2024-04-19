@@ -5,6 +5,10 @@ const textInput = ref('')
 const emits = defineEmits(['update', 'remove'])
 
 const submitForm = () => {
+  if (textInput.value.trim() === '') {
+    return
+  }
+
   emits('update', textInput.value)
 }
 
