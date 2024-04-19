@@ -45,7 +45,7 @@ const handleUpdate = (index, updateText) => {
 <template>
   <form @submit.prevent="addNewTodo">
     <label for="new-todo">メモを追加する</label>
-    <input v-model="newTodoText" placeholder="ex)買い物に行く" />
+    <input v-model="newTodoText" placeholder="ex)買い物に行く" required />
     <button>追加</button>
   </form>
 
