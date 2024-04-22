@@ -20,7 +20,7 @@ defineProps(['content', 'value'])
     {{ content }}
     <form @submit.prevent="submitForm">
       <label for="update-todo">メモを編集する</label>
-      <input v-model="textInput" required />
+      <input v-model="textInput" />
       <button>更新</button>
       <button @click="$emit('remove')">削除</button>
     </form>

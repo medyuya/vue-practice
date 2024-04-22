@@ -3,20 +3,7 @@ import { ref } from 'vue'
 import TodoItem from './components/TodoItem.vue'
 
 const newTodoText = ref('')
-const todos = ref([
-  {
-    id: 1,
-    content: 'Do the dishes'
-  },
-  {
-    id: 2,
-    content: 'Take out the trash'
-  },
-  {
-    id: 3,
-    content: 'Mow the lawn'
-  }
-])
+const todos = ref([])
 
 let nextTodoId = 1
 
@@ -33,8 +20,13 @@ const addNewTodo = () => {
   newTodoText.value = ''
 }
 
-const removeTodo = (index) => {
-  todos.value.splice(index, 1)
+const removeTodo = (targetId) => {
+  let indexToRemove = todos.value.findIndex((item) => item.id === targetId)
+
+  if (indexToRemove !== -1) {
+    localStorage.removeItem('todo_' + targetId)
+    todos.value.splice(indexToRemove, 1)
+  }
 }
 
 const handleUpdate = (index, updateText) => {
@@ -51,11 +43,11 @@ const handleUpdate = (index, updateText) => {
 
   <ul>
     <TodoItem
-      v-for="(todo, index) in todos"
+      v-for="todo in todos"
       :key="todo.id"
       :content="todo.content"
-      @remove="removeTodo(index)"
-      @update="handleUpdate(index, $event)"
+      @remove="removeTodo(todo.id)"
+      @update="handleUpdate(todo.id, $event)"
     >
     </TodoItem>
   </ul>
