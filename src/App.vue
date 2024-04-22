@@ -12,6 +12,8 @@ const addNewTodo = () => {
     return
   }
 
+  localStorage.setItem('todo_' + nextTodoId, newTodoText.value)
+
   todos.value.push({
     id: nextTodoId++,
     content: newTodoText.value
