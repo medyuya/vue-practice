@@ -6,8 +6,7 @@ import * as localStorageHandlers from './utils/localStorageHandlers.js'
 const newTodoText = ref('')
 const todos = ref(localStorageHandlers.get('todos'))
 
-// console.log(todos.value[todos.value.length - 1].id + 1)
-let nextTodoId = 1
+let nextTodoId = crypto.randomUUID()
 
 const addNewTodo = () => {
   if (newTodoText.value.trim() === '') {
@@ -22,10 +21,11 @@ const addNewTodo = () => {
   localStorageHandlers.create('todos', newTodo)
 
   todos.value.push({
-    id: nextTodoId++,
+    id: nextTodoId,
     content: newTodoText.value
   })
 
+  nextTodoId = crypto.randomUUID()
   newTodoText.value = ''
 }
 
