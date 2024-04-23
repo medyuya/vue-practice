@@ -9,9 +9,9 @@ export const useTodos = () => {
       return
     }
 
-    let freshTodoId = crypto.randomUUID()
+    const freshTodoId = crypto.randomUUID()
 
-    let newTodo = {
+    const newTodo = {
       id: freshTodoId,
       content: newText
     }
@@ -27,7 +27,7 @@ export const useTodos = () => {
   const removeTodo = (targetId) => {
     localStorageHandlers.remove('todos', targetId)
 
-    let indexToRemove = todos.value.findIndex((item) => item.id === targetId)
+    const indexToRemove = todos.value.findIndex((item) => item.id === targetId)
     todos.value.splice(indexToRemove, 1)
   }
 
