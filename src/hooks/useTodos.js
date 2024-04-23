@@ -18,10 +18,7 @@ export const useTodos = () => {
 
     localStorageHandlers.create('todos', newTodo)
 
-    todos.value.push({
-      id: freshTodoId,
-      content: newText
-    })
+    todos.value.push(newTodo)
   }
 
   const removeTodo = (targetId) => {
