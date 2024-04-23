@@ -1,29 +1,27 @@
 import { ref } from 'vue'
 import * as localStorageHandlers from '../utils/localStorageHandlers.js'
 
-export function useTodos() {
+export const useTodos = () => {
   const todos = ref(localStorageHandlers.get('todos'))
-
-  let nextTodoId = crypto.randomUUID()
 
   const addNewTodo = (newText) => {
     if (newText.trim() === '') {
       return
     }
 
+    let freshTodoId = crypto.randomUUID()
+
     let newTodo = {
-      id: nextTodoId,
+      id: freshTodoId,
       content: newText
     }
 
     localStorageHandlers.create('todos', newTodo)
 
     todos.value.push({
-      id: nextTodoId,
+      id: freshTodoId,
       content: newText
     })
-
-    nextTodoId = crypto.randomUUID()
   }
 
   const removeTodo = (targetId) => {
