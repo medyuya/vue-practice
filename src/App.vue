@@ -1,56 +1,27 @@
 <script setup>
 import { ref } from 'vue'
 import TodoItem from './components/TodoItem.vue'
-import * as localStorageHandlers from './utils/localStorageHandlers.js'
+import { useTodos } from './hooks/useTodos.js'
 
 const newTodoText = ref('')
-const todos = ref(localStorageHandlers.get('todos'))
+const { todos, addNewTodo, removeTodo, updateTodo } = useTodos()
 
-let nextTodoId = crypto.randomUUID()
-
-const addNewTodo = () => {
-  if (newTodoText.value.trim() === '') {
-    return
-  }
-
-  let newTodo = {
-    id: nextTodoId,
-    content: newTodoText.value
-  }
-
-  localStorageHandlers.create('todos', newTodo)
-
-  todos.value.push({
-    id: nextTodoId,
-    content: newTodoText.value
-  })
-
-  nextTodoId = crypto.randomUUID()
+const handleAddNewTodo = () => {
+  addNewTodo(newTodoText.value)
   newTodoText.value = ''
 }
 
-const removeTodo = (targetId) => {
-  localStorageHandlers.remove('todos', targetId)
-
-  let indexToRemove = todos.value.findIndex((item) => item.id === targetId)
-  todos.value.splice(indexToRemove, 1)
+const handleRemoveTodo = (targetId) => {
+  removeTodo(targetId)
 }
 
-const updateTodo = (updateId, updateContent) => {
-  localStorageHandlers.update('todos', updateId, updateContent)
-
-  todos.value = todos.value.map((todo) => {
-    if (todo.id === updateId) {
-      return { ...todo, content: updateContent }
-    }
-
-    return todo
-  })
+const handleUpdateTodo = (updateId, updateContent) => {
+  updateTodo(updateId, updateContent)
 }
 </script>
 
 <template>
-  <form @submit.prevent="addNewTodo">
+  <form @submit.prevent="handleAddNewTodo()">
     <label for="new-todo">メモを追加する</label>
     <input v-model="newTodoText" placeholder="ex)買い物に行く" required />
     <button>追加</button>
@@ -61,8 +32,8 @@ const updateTodo = (updateId, updateContent) => {
       v-for="todo in todos"
       :key="todo.id"
       :content="todo.content"
-      @remove="removeTodo(todo.id)"
-      @update="updateTodo(todo.id, $event)"
+      @remove="handleRemoveTodo(todo.id)"
+      @update="handleUpdateTodo(todo.id, $event)"
     >
     </TodoItem>
   </ul>
