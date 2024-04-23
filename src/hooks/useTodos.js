@@ -27,16 +27,16 @@ export const useTodos = () => {
   const removeTodo = (targetId) => {
     localStorageHandlers.remove('todos', targetId)
 
-    const indexToRemove = todos.value.findIndex((item) => item.id === targetId)
+    const indexToRemove = todos.value.findIndex((todo) => todo.id === targetId)
     todos.value.splice(indexToRemove, 1)
   }
 
-  const updateTodo = (updateId, updateContent) => {
-    localStorageHandlers.update('todos', updateId, updateContent)
+  const updateTodo = (targetId, updateText) => {
+    localStorageHandlers.update('todos', targetId, updateText)
 
     todos.value = todos.value.map((todo) => {
-      if (todo.id === updateId) {
-        return { ...todo, content: updateContent }
+      if (todo.id === targetId) {
+        return { ...todo, content: updateText }
       }
 
       return todo
