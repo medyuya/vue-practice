@@ -12,12 +12,12 @@ export const remove = (key, targetId) => {
   localStorage.setItem(key, JSON.stringify(removedData))
 }
 
-export const update = (key, targetId, updateContent) => {
+export const update = (key, targetId, updateText) => {
   const storageData = JSON.parse(localStorage.getItem(key)) || []
 
   const updatedData = storageData.map((storageData) => {
     if (storageData.id === targetId) {
-      return { ...storageData, content: updateContent }
+      return { ...storageData, content: updateText }
     }
 
     return storageData

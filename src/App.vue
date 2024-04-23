@@ -15,8 +15,8 @@ const handleRemoveTodo = (targetId) => {
   removeTodo(targetId)
 }
 
-const handleUpdateTodo = (targetId, updateContent) => {
-  updateTodo(targetId, updateContent)
+const handleUpdateTodo = (targetId, updateText) => {
+  updateTodo(targetId, updateText)
 }
 </script>
 
