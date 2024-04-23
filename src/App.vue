@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import TodoItem from './components/TodoItem.vue'
+import * as localStorageHandlers from './utils/localStorageHandlers.js'
 
 const newTodoText = ref('')
-const todos = ref([])
+const todos = ref(localStorageHandlers.get('todos'))
 
+// console.log(todos.value[todos.value.length - 1].id + 1)
 let nextTodoId = 1
 
 const addNewTodo = () => {
@@ -12,7 +14,12 @@ const addNewTodo = () => {
     return
   }
 
-  localStorage.setItem('todo_' + nextTodoId, newTodoText.value)
+  let newTodo = {
+    id: nextTodoId,
+    content: newTodoText.value
+  }
+
+  localStorageHandlers.create('todos', newTodo)
 
   todos.value.push({
     id: nextTodoId++,
@@ -23,16 +30,22 @@ const addNewTodo = () => {
 }
 
 const removeTodo = (targetId) => {
-  let indexToRemove = todos.value.findIndex((item) => item.id === targetId)
+  localStorageHandlers.remove('todos', targetId)
 
-  if (indexToRemove !== -1) {
-    localStorage.removeItem('todo_' + targetId)
-    todos.value.splice(indexToRemove, 1)
-  }
+  let indexToRemove = todos.value.findIndex((item) => item.id === targetId)
+  todos.value.splice(indexToRemove, 1)
 }
 
-const handleUpdate = (index, updateText) => {
-  todos.value[index].content = updateText
+const updateTodo = (updateId, updateContent) => {
+  localStorageHandlers.update('todos', updateId, updateContent)
+
+  todos.value = todos.value.map((todo) => {
+    if (todo.id === updateId) {
+      return { ...todo, content: updateContent }
+    }
+
+    return todo
+  })
 }
 </script>
 
@@ -49,7 +62,7 @@ const handleUpdate = (index, updateText) => {
       :key="todo.id"
       :content="todo.content"
       @remove="removeTodo(todo.id)"
-      @update="handleUpdate(todo.id, $event)"
+      @update="updateTodo(todo.id, $event)"
     >
     </TodoItem>
   </ul>
