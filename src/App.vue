@@ -21,7 +21,7 @@ const handleUpdateTodo = (targetId, updateContent) => {
 </script>
 
 <template>
-  <form @submit.prevent="handleAddNewTodo()">
+  <form @submit.prevent="handleAddNewTodo">
     <label for="new-todo">メモを追加する</label>
     <input v-model="newTodoText" placeholder="ex)買い物に行く" required />
     <button>追加</button>
