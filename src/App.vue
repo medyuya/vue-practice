@@ -1,61 +1,39 @@
 <script setup>
 import { ref } from 'vue'
 import TodoItem from './components/TodoItem.vue'
+import { useTodos } from './hooks/useTodos.js'
 
 const newTodoText = ref('')
-const todos = ref([
-  {
-    id: 1,
-    content: 'Do the dishes'
-  },
-  {
-    id: 2,
-    content: 'Take out the trash'
-  },
-  {
-    id: 3,
-    content: 'Mow the lawn'
-  }
-])
+const { todos, addNewTodo, removeTodo, updateTodo } = useTodos()
 
-let nextTodoId = 1
-
-const addNewTodo = () => {
-  if (newTodoText.value.trim() === '') {
-    return
-  }
-
-  todos.value.push({
-    id: nextTodoId++,
-    content: newTodoText.value
-  })
-
+const handleAddNewTodo = () => {
+  addNewTodo(newTodoText.value)
   newTodoText.value = ''
 }
 
-const removeTodo = (index) => {
-  todos.value.splice(index, 1)
+const handleRemoveTodo = (targetId) => {
+  removeTodo(targetId)
 }
 
-const handleUpdate = (index, updateText) => {
-  todos.value[index].content = updateText
+const handleUpdateTodo = (targetId, updateText) => {
+  updateTodo(targetId, updateText)
 }
 </script>
 
 <template>
-  <form @submit.prevent="addNewTodo">
-    <label for="new-todo">メモを追加する</label>
+  <form @submit.prevent="handleAddNewTodo">
+    <label>メモを追加する</label>
     <input v-model="newTodoText" placeholder="ex)買い物に行く" required />
     <button>追加</button>
   </form>
 
   <ul>
     <TodoItem
-      v-for="(todo, index) in todos"
+      v-for="todo in todos"
       :key="todo.id"
       :content="todo.content"
-      @remove="removeTodo(index)"
-      @update="handleUpdate(index, $event)"
+      @remove="handleRemoveTodo(todo.id)"
+      @update="handleUpdateTodo(todo.id, $event)"
     >
     </TodoItem>
   </ul>
