@@ -1,14 +1,12 @@
 import { ref } from 'vue'
 import * as localStorageHandlers from '../utils/localStorageHandlers.js'
 
+const TODOS_STORAGE_KEY = 'todos'
+
 export const useTodos = () => {
-  const todos = ref(localStorageHandlers.get('todos'))
+  const todos = ref(localStorageHandlers.get(TODOS_STORAGE_KEY))
 
   const addNewTodo = (newText) => {
-    if (newText.trim() === '') {
-      return
-    }
-
     const freshTodoId = crypto.randomUUID()
 
     const newTodo = {
@@ -16,28 +14,24 @@ export const useTodos = () => {
       content: newText
     }
 
-    localStorageHandlers.create('todos', newTodo)
+    localStorageHandlers.create(TODOS_STORAGE_KEY, newTodo)
 
     todos.value.push(newTodo)
   }
 
   const removeTodo = (targetId) => {
-    localStorageHandlers.remove('todos', targetId)
+    localStorageHandlers.remove(TODOS_STORAGE_KEY, targetId)
 
     const indexToRemove = todos.value.findIndex((todo) => todo.id === targetId)
     todos.value.splice(indexToRemove, 1)
   }
 
   const updateTodo = (targetId, updateText) => {
-    localStorageHandlers.update('todos', targetId, updateText)
+    localStorageHandlers.update(TODOS_STORAGE_KEY, targetId, updateText)
 
-    todos.value = todos.value.map((todo) => {
-      if (todo.id === targetId) {
-        return { ...todo, content: updateText }
-      }
-
-      return todo
-    })
+    todos.value = todos.value.map((todo) =>
+      todo.id === targetId ? { ...todo, content: updateText } : todo
+    )
   }
 
   return { todos, addNewTodo, removeTodo, updateTodo }

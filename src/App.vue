@@ -7,6 +7,10 @@ const newTodoText = ref('')
 const { todos, addNewTodo, removeTodo, updateTodo } = useTodos()
 
 const handleAddNewTodo = () => {
+  if (newTodoText.value.trim() === '') {
+    return
+  }
+
   addNewTodo(newTodoText.value)
   newTodoText.value = ''
 }
